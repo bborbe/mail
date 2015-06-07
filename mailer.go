@@ -23,6 +23,7 @@ type Message interface {
 	Sender() string
 	Recipient() string
 	Content() string
+	Subject() string
 }
 
 type mailer struct {
@@ -52,12 +53,11 @@ func (s *mailer) Send(message Message) error {
 
 	from := net_mail.Address{"", message.Sender()}
 	to := net_mail.Address{"", message.Recipient()}
-	subj := "Monitoring Result"
 
 	headers := make(map[string]string)
 	headers["From"] = from.String()
 	headers["To"] = to.String()
-	headers["Subject"] = subj
+	headers["Subject"] = message.Subject()
 
 	content := ""
 	for k, v := range headers {
