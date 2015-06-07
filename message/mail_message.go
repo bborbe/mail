@@ -21,7 +21,6 @@ func (m *message) Content() string {
 	return m.content
 }
 
-
 func (m *message) SetSender(sender string) {
 	m.sender = sender
 }

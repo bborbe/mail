@@ -34,7 +34,7 @@ type Mailer interface {
 }
 
 func New(config Config) *mailer {
-	m :=new(mailer)
+	m := new(mailer)
 	m.config = config
 	return m
 }
@@ -63,7 +63,7 @@ func (s *mailer) Send(message Message) error {
 	for k, v := range headers {
 		content += fmt.Sprintf("%s: %s\r\n", k, v)
 	}
-	content += "\r\n"+message.Content()
+	content += "\r\n" + message.Content()
 
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,

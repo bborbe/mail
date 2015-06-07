@@ -19,7 +19,6 @@ func (m *config) SetSmtpUser(smtpUser string) {
 	m.smtpUser = smtpUser
 }
 
-
 func (m *config) SmtpPassword() string {
 	return m.smtpPassword
 }
@@ -28,7 +27,6 @@ func (m *config) SetSmtpPassword(smtpPassword string) {
 	m.smtpPassword = smtpPassword
 }
 
-
 func (m *config) SmtpHost() string {
 	return m.smtpHost
 }
@@ -36,7 +34,6 @@ func (m *config) SmtpHost() string {
 func (m *config) SetSmtpHost(smtpHost string) {
 	m.smtpHost = smtpHost
 }
-
 
 func (m *config) SmtpPort() int {
 	return m.smtpPort
