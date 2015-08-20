@@ -19,6 +19,7 @@ type Config interface {
 	SmtpHost() string
 	SmtpPort() int
 }
+
 type Message interface {
 	Sender() string
 	Recipient() string
