@@ -1,4 +1,4 @@
-package mail
+package mailer
 
 import (
 	"crypto/tls"
@@ -9,6 +9,8 @@ import (
 	"fmt"
 
 	"github.com/bborbe/log"
+	"mime/quotedprintable"
+	"bytes"
 )
 
 var logger = log.DefaultLogger
@@ -58,13 +60,16 @@ func (s *mailer) Send(message Message) error {
 	headers := make(map[string]string)
 	headers["From"] = from.String()
 	headers["To"] = to.String()
-	headers["Subject"] = message.Subject()
+	headers["Subject"] = "=?UTF-8?Q?"+QuoteString(message.Subject())+"?="
+	headers["Content-Type"] = `text/plain; charset="utf-8"`
+	headers["Content-Transfer-Encoding"] = `quoted-printable`
 
 	content := ""
 	for k, v := range headers {
 		content += fmt.Sprintf("%s: %s\r\n", k, v)
 	}
-	content += "\r\n" + message.Content()
+
+	content += "\r\n"+QuoteString(message.Content())
 
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
@@ -117,4 +122,12 @@ func (s *mailer) Send(message Message) error {
 	}
 
 	return smtpClient.Quit()
+}
+
+func QuoteString(s string) string {
+	w := bytes.NewBufferString("")
+	qw := quotedprintable.NewWriter(w)
+	qw.Write([]byte(s))
+	qw.Close()
+	return string(w.Bytes())
 }

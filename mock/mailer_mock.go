@@ -1,20 +1,20 @@
 package mock
 
-import "github.com/bborbe/mail"
+import "github.com/bborbe/mailer"
 
-type mailer struct {
+type mailerMock struct {
 	Error   error
-	Message mail.Message
+	Message mailer.Message
 	Counter int
 }
 
-func New() *mailer {
-	m := new(mailer)
+func New() *mailerMock {
+	m := new(mailerMock)
 	m.Counter = 0
 	return m
 }
 
-func (m *mailer) Send(message mail.Message) error {
+func (m *mailerMock) Send(message mailer.Message) error {
 	m.Message = message
 	m.Counter++
 	return m.Error

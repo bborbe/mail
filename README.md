@@ -4,7 +4,7 @@ Mail
 Documentation
 -------------
 
-http://godoc.org/github.com/bborbe/mail
+http://godoc.org/github.com/bborbe/mailer
 
 Continuous integration
 ----------------------
