@@ -8,9 +8,10 @@ import (
 
 	"fmt"
 
-	"github.com/bborbe/log"
-	"mime/quotedprintable"
 	"bytes"
+	"mime/quotedprintable"
+
+	"github.com/bborbe/log"
 )
 
 var logger = log.DefaultLogger
@@ -60,7 +61,7 @@ func (s *mailer) Send(message Message) error {
 	headers := make(map[string]string)
 	headers["From"] = from.String()
 	headers["To"] = to.String()
-	headers["Subject"] = "=?UTF-8?Q?"+QuoteString(message.Subject())+"?="
+	headers["Subject"] = "=?UTF-8?Q?" + QuoteString(message.Subject()) + "?="
 	headers["Content-Type"] = `text/plain; charset="utf-8"`
 	headers["Content-Transfer-Encoding"] = `quoted-printable`
 
@@ -69,7 +70,7 @@ func (s *mailer) Send(message Message) error {
 		content += fmt.Sprintf("%s: %s\r\n", k, v)
 	}
 
-	content += "\r\n"+QuoteString(message.Content())
+	content += "\r\n" + QuoteString(message.Content())
 
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
