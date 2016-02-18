@@ -1,9 +1,5 @@
 # Mailer
 
-## Documentation
-
-http://godoc.org/github.com/bborbe/mailer
-
 ## Continuous integration
 
 http://jenkins.benjamin-borbe.de/job/Go-Mail/
