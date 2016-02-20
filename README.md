@@ -2,7 +2,7 @@
 
 ## Continuous integration
 
-http://jenkins.benjamin-borbe.de/job/Go-Mail/
+[Jenkins](https://www.benjamin-borbe.de/jenkins/job/Go-Mail/)
 
 ## Copyright and license
 
