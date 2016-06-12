@@ -138,7 +138,9 @@ func createConn(servername string, tlsActive bool, tlsSkipVerify bool, timeout t
 			InsecureSkipVerify: tlsSkipVerify,
 			ServerName:         servername,
 		}
+		logger.Debugf("open tls connection to: %s", servername)
 		return tls.DialWithDialer(dailer, "tcp", servername, tlsconfig)
 	}
+	logger.Debugf("open non tls connection to: %s", servername)
 	return dailer.Dial("tcp", servername)
 }
