@@ -78,7 +78,7 @@ func (s *mailer) Send(message Message) error {
 	logger.Tracef("connect to %s", servername)
 	conn, err := createConn(servername, s.config.Tls(), s.config.TlsSkipVerify(), s.config.Timeout())
 	if err != nil {
-		return nil
+		return err
 	}
 	defer conn.Close()
 
