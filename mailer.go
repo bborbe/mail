@@ -9,6 +9,8 @@ import (
 	net_mail "net/mail"
 	"net/smtp"
 
+	"time"
+
 	"github.com/bborbe/log"
 )
 
@@ -21,6 +23,7 @@ type Config interface {
 	SmtpPort() int
 	Tls() bool
 	TlsSkipVerify() bool
+	Timeout() time.Duration
 }
 
 type Message interface {
@@ -73,7 +76,7 @@ func (s *mailer) Send(message Message) error {
 	content += "\r\n" + QuoteString(message.Content())
 
 	logger.Tracef("connect to %s", servername)
-	conn, err := createConn(servername, s.config.Tls(), s.config.TlsSkipVerify())
+	conn, err := createConn(servername, s.config.Tls(), s.config.TlsSkipVerify(), s.config.Timeout())
 	if err != nil {
 		return nil
 	}
@@ -128,13 +131,14 @@ func QuoteString(s string) string {
 	return string(w.Bytes())
 }
 
-func createConn(servername string, tlsActive bool, tlsSkipVerify bool) (net.Conn, error) {
+func createConn(servername string, tlsActive bool, tlsSkipVerify bool, timeout time.Duration) (net.Conn, error) {
+	dailer := &net.Dialer{Timeout: timeout}
 	if tlsActive {
 		tlsconfig := &tls.Config{
 			InsecureSkipVerify: tlsSkipVerify,
 			ServerName:         servername,
 		}
-		return tls.Dial("tcp", servername, tlsconfig)
+		return tls.DialWithDialer(dailer, "tcp", servername, tlsconfig)
 	}
-	return net.Dial("tcp", servername)
+	return dailer.Dial("tcp", servername)
 }

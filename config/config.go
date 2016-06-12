@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type config struct {
 	smtpUser          string
 	smtpPassword      string
@@ -7,6 +9,7 @@ type config struct {
 	smtpPort          int
 	smtpTls           bool
 	smtpTlsSkipVerify bool
+	smtpTimeout       time.Duration
 }
 
 func New() *config {
@@ -14,6 +17,7 @@ func New() *config {
 	c.smtpTls = true
 	c.smtpTlsSkipVerify = false
 	c.smtpPort = 25
+	c.smtpTimeout = 5 * time.Second
 	return c
 }
 
@@ -63,4 +67,12 @@ func (m *config) TlsSkipVerify() bool {
 
 func (m *config) SetTlsSkipVerify(tlsSkipVerify bool) {
 	m.smtpTlsSkipVerify = tlsSkipVerify
+}
+
+func (m *config) Timeout() time.Duration {
+	return m.smtpTimeout
+}
+
+func (m *config) SetTimeout(smtpTimeout time.Duration) {
+	m.smtpTimeout = smtpTimeout
 }
