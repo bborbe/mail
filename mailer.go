@@ -1,15 +1,13 @@
 package mailer
 
 import (
-	"crypto/tls"
-	"net/smtp"
-
-	net_mail "net/mail"
-
-	"fmt"
-
 	"bytes"
+	"crypto/tls"
+	"fmt"
 	"mime/quotedprintable"
+	"net"
+	net_mail "net/mail"
+	"net/smtp"
 
 	"github.com/bborbe/log"
 )
@@ -21,6 +19,8 @@ type Config interface {
 	SmtpPassword() string
 	SmtpHost() string
 	SmtpPort() int
+	Tls() bool
+	TlsSkipVerify() bool
 }
 
 type Message interface {
@@ -72,15 +72,10 @@ func (s *mailer) Send(message Message) error {
 
 	content += "\r\n" + QuoteString(message.Content())
 
-	tlsconfig := &tls.Config{
-		InsecureSkipVerify: true,
-		ServerName:         servername,
-	}
-
 	logger.Tracef("connect to %s", servername)
-	conn, err := tls.Dial("tcp", servername, tlsconfig)
+	conn, err := createConn(servername, s.config.Tls(), s.config.TlsSkipVerify())
 	if err != nil {
-		return err
+		return nil
 	}
 	defer conn.Close()
 
@@ -131,4 +126,15 @@ func QuoteString(s string) string {
 	qw.Write([]byte(s))
 	qw.Close()
 	return string(w.Bytes())
+}
+
+func createConn(servername string, tlsActive bool, tlsSkipVerify bool) (net.Conn, error) {
+	if tlsActive {
+		tlsconfig := &tls.Config{
+			InsecureSkipVerify: tlsSkipVerify,
+			ServerName:         servername,
+		}
+		return tls.Dial("tcp", servername, tlsconfig)
+	}
+	return net.Dial("tcp", servername)
 }

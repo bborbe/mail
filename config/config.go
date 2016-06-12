@@ -1,14 +1,20 @@
 package config
 
 type config struct {
-	smtpUser     string
-	smtpPassword string
-	smtpHost     string
-	smtpPort     int
+	smtpUser          string
+	smtpPassword      string
+	smtpHost          string
+	smtpPort          int
+	smtpTls           bool
+	smtpTlsSkipVerify bool
 }
 
 func New() *config {
-	return new(config)
+	c := new(config)
+	c.smtpTls = true
+	c.smtpTlsSkipVerify = false
+	c.smtpPort = 25
+	return c
 }
 
 func (m *config) SmtpUser() string {
@@ -41,4 +47,20 @@ func (m *config) SmtpPort() int {
 
 func (m *config) SetSmtpPort(smtpPort int) {
 	m.smtpPort = smtpPort
+}
+
+func (m *config) Tls() bool {
+	return m.smtpTls
+}
+
+func (m *config) SetTls(tls bool) {
+	m.smtpTls = tls
+}
+
+func (m *config) TlsSkipVerify() bool {
+	return m.smtpTlsSkipVerify
+}
+
+func (m *config) SetTlsSkipVerify(tlsSkipVerify bool) {
+	m.smtpTlsSkipVerify = tlsSkipVerify
 }
