@@ -49,12 +49,7 @@ func New(config Config) *mailer {
 
 func (s *mailer) Send(message Message) error {
 	logger.Debugf("sendMail to %s", message.Recipient())
-	auth := smtp.PlainAuth(
-		"",
-		s.config.SmtpUser(),
-		s.config.SmtpPassword(),
-		s.config.SmtpHost(),
-	)
+
 	servername := fmt.Sprintf("%s:%d", s.config.SmtpHost(), s.config.SmtpPort())
 	logger.Debugf("connect to smtp-server to %s", servername)
 
@@ -92,9 +87,17 @@ func (s *mailer) Send(message Message) error {
 		return err
 	}
 
-	err = smtpClient.Auth(auth)
-	if err != nil {
-		return err
+	if len(s.config.SmtpUser()) > 0 {
+		auth := smtp.PlainAuth(
+			"",
+			s.config.SmtpUser(),
+			s.config.SmtpPassword(),
+			s.config.SmtpHost(),
+		)
+		err = smtpClient.Auth(auth)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = smtpClient.Mail(message.Sender())
