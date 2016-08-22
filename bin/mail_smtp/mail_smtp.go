@@ -1,13 +1,14 @@
 package main
 
 import (
+	"os"
+	"runtime"
+
 	flag "github.com/bborbe/flagenv"
 	"github.com/bborbe/log"
 	"github.com/bborbe/mailer"
 	"github.com/bborbe/mailer/config"
 	"github.com/bborbe/mailer/message"
-	"os"
-	"runtime"
 )
 
 var logger = log.DefaultLogger
