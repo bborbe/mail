@@ -53,8 +53,14 @@ func (s *mailer) Send(message Message) error {
 	servername := fmt.Sprintf("%s:%d", s.config.SmtpHost(), s.config.SmtpPort())
 	logger.Debugf("connect to smtp-server to %s", servername)
 
-	from := net_mail.Address{"", message.Sender()}
-	to := net_mail.Address{"", message.Recipient()}
+	from := net_mail.Address{
+		Name:    "",
+		Address: message.Sender(),
+	}
+	to := net_mail.Address{
+		Name:    "",
+		Address: message.Recipient(),
+	}
 
 	headers := make(map[string]string)
 	headers["From"] = from.String()
