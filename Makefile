@@ -12,7 +12,8 @@ errcheck:
 check: lint vet errcheck
 run:
 	mail_smtp \
-	-loglevel=trace
+	-logtostderr \
+  -v=2
 format:
 	find . -name "*.go" -exec gofmt -w "{}" \;
 	goimports -w=true .
