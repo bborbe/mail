@@ -1,17 +1,14 @@
 package main
 
 import (
-	"os"
 	"runtime"
 
 	flag "github.com/bborbe/flagenv"
-	"github.com/bborbe/log"
 	"github.com/bborbe/mailer"
 	"github.com/bborbe/mailer/config"
 	"github.com/bborbe/mailer/message"
+	"github.com/golang/glog"
 )
-
-var logger = log.DefaultLogger
 
 const (
 	DEFAULT_HOST              = "localhost"
@@ -22,7 +19,6 @@ const (
 	DEFAULT_TO                = "test@example.com"
 	DEFAULT_BODY              = "Hello World\r\n"
 	DEFAULT_SUBJECT           = "Test Mail"
-	PARAMETER_LOGLEVEL        = "loglevel"
 	PARAMETER_SMTP_HOST       = "smtp-host"
 	PARAMETER_SMTP_PORT       = "smtp-port"
 	PARAMETER_TLS             = "smtp-tls"
@@ -34,7 +30,6 @@ const (
 )
 
 var (
-	logLevelPtr          = flag.String(PARAMETER_LOGLEVEL, log.INFO_STRING, "one of OFF,TRACE,DEBUG,INFO,WARN,ERROR")
 	smtpHostPtr          = flag.String(PARAMETER_SMTP_HOST, DEFAULT_HOST, "smtp host")
 	smtpPortPtr          = flag.Int(PARAMETER_SMTP_PORT, DEFAULT_PORT, "smtp port")
 	smtpTlsPtr           = flag.Bool(PARAMETER_TLS, DEFAULT_TLS, "smtp tls")
@@ -46,12 +41,9 @@ var (
 )
 
 func main() {
-	defer logger.Close()
+	defer glog.Flush()
+	glog.CopyStandardLogTo("info")
 	flag.Parse()
-
-	logger.SetLevelThreshold(log.LogStringToLevel(*logLevelPtr))
-	logger.Debugf("set log level to %s", *logLevelPtr)
-
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	err := do(
@@ -65,9 +57,7 @@ func main() {
 		*bodyPtr,
 	)
 	if err != nil {
-		logger.Fatal(err)
-		logger.Close()
-		os.Exit(1)
+		glog.Exit(err)
 	}
 }
 
@@ -95,6 +85,6 @@ func do(
 	if err := mailer.Send(message); err != nil {
 		return err
 	}
-	logger.Debugf("send mail successful")
+	glog.V(2).Infof("send mail successful")
 	return nil
 }

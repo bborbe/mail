@@ -11,10 +11,8 @@ import (
 
 	"time"
 
-	"github.com/bborbe/log"
+	"github.com/golang/glog"
 )
-
-var logger = log.DefaultLogger
 
 type Config interface {
 	SmtpUser() string
@@ -48,10 +46,10 @@ func New(config Config) *mailer {
 }
 
 func (s *mailer) Send(message Message) error {
-	logger.Debugf("sendMail to %s", message.Recipient())
+	glog.V(2).Infof("sendMail to %s", message.Recipient())
 
 	servername := fmt.Sprintf("%s:%d", s.config.SmtpHost(), s.config.SmtpPort())
-	logger.Debugf("connect to smtp-server to %s", servername)
+	glog.V(2).Infof("connect to smtp-server to %s", servername)
 
 	from := net_mail.Address{
 		Name:    "",
@@ -76,7 +74,7 @@ func (s *mailer) Send(message Message) error {
 
 	content += "\r\n" + QuoteString(message.Content())
 
-	logger.Tracef("connect to %s", servername)
+	glog.V(4).Infof("connect to %s", servername)
 	conn, err := createConn(servername, s.config.Tls(), s.config.TlsSkipVerify(), s.config.Timeout())
 	if err != nil {
 		return err
@@ -121,7 +119,7 @@ func (s *mailer) Send(message Message) error {
 		return err
 	}
 
-	logger.Tracef("write message %s", content)
+	glog.V(4).Infof("write message %s", content)
 	data.Write([]byte(content))
 
 	err = data.Close()
@@ -147,9 +145,9 @@ func createConn(servername string, tlsActive bool, tlsSkipVerify bool, timeout t
 			InsecureSkipVerify: tlsSkipVerify,
 			ServerName:         servername,
 		}
-		logger.Debugf("open tls connection to: %s", servername)
+		glog.V(2).Infof("open tls connection to: %s", servername)
 		return tls.DialWithDialer(dailer, "tcp", servername, tlsconfig)
 	}
-	logger.Debugf("open non tls connection to: %s", servername)
+	glog.V(2).Infof("open non tls connection to: %s", servername)
 	return dailer.Dial("tcp", servername)
 }
