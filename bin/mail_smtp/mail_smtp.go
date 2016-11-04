@@ -11,33 +11,33 @@ import (
 )
 
 const (
-	DEFAULT_HOST              = "localhost"
-	DEFAULT_PORT              = 1025
-	DEFAULT_TLS               = false
-	DEFAULT_TLS_SKIP_VERIFY   = false
-	DEFAULT_FROM              = "test@example.com"
-	DEFAULT_TO                = "test@example.com"
-	DEFAULT_BODY              = "Hello World\r\n"
-	DEFAULT_SUBJECT           = "Test Mail"
-	PARAMETER_SMTP_HOST       = "smtp-host"
-	PARAMETER_SMTP_PORT       = "smtp-port"
-	PARAMETER_TLS             = "smtp-tls"
-	PARAMETER_TLS_SKIP_VERIFY = "smtp-tls-skip-verify"
-	PARAMETER_FROM            = "from"
-	PARAMETER_TO              = "to"
-	PARAMETER_SUBJECT         = "subject"
-	PARAMETER_BODY            = "body"
+	defaultHost            = "localhost"
+	defaultPort            = 1025
+	defaultTls             = false
+	defaultTlsSkipVerify   = false
+	defaultFrom            = "test@example.com"
+	defaultTo              = "test@example.com"
+	defaultBody            = "Hello World\r\n"
+	defaultSubject         = "Test Mail"
+	parameterSmtpHost      = "smtp-host"
+	parameterSmtpPort      = "smtp-port"
+	parameterTls           = "smtp-tls"
+	parameterTlsSkipVerify = "smtp-tls-skip-verify"
+	parameterFrom          = "from"
+	parameterTo            = "to"
+	parameterSubject       = "subject"
+	parameterBody          = "body"
 )
 
 var (
-	smtpHostPtr          = flag.String(PARAMETER_SMTP_HOST, DEFAULT_HOST, "smtp host")
-	smtpPortPtr          = flag.Int(PARAMETER_SMTP_PORT, DEFAULT_PORT, "smtp port")
-	smtpTlsPtr           = flag.Bool(PARAMETER_TLS, DEFAULT_TLS, "smtp tls")
-	smtpTlsSkipVerifyPtr = flag.Bool(PARAMETER_TLS_SKIP_VERIFY, DEFAULT_TLS_SKIP_VERIFY, "smtp tls skip verify")
-	fromPtr              = flag.String(PARAMETER_FROM, DEFAULT_FROM, "from")
-	toPtr                = flag.String(PARAMETER_TO, DEFAULT_TO, "to")
-	subjectPtr           = flag.String(PARAMETER_SUBJECT, DEFAULT_SUBJECT, "subject")
-	bodyPtr              = flag.String(PARAMETER_BODY, DEFAULT_BODY, "body")
+	smtpHostPtr          = flag.String(parameterSmtpHost, defaultHost, "smtp host")
+	smtpPortPtr          = flag.Int(parameterSmtpPort, defaultPort, "smtp port")
+	smtpTlsPtr           = flag.Bool(parameterTls, defaultTls, "smtp tls")
+	smtpTlsSkipVerifyPtr = flag.Bool(parameterTlsSkipVerify, defaultTlsSkipVerify, "smtp tls skip verify")
+	fromPtr              = flag.String(parameterFrom, defaultFrom, "from")
+	toPtr                = flag.String(parameterTo, defaultTo, "to")
+	subjectPtr           = flag.String(parameterSubject, defaultSubject, "subject")
+	bodyPtr              = flag.String(parameterBody, defaultBody, "body")
 )
 
 func main() {
