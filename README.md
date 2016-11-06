@@ -1,5 +1,21 @@
 # Mailer
 
+## Send mail
+
+```
+mail_smtp \
+-logtostderr \
+-v=2 \
+-smtp-host="mail.benjamin-borbe.de" \
+-smtp-port=25 \
+-smtp-tls=false \
+-smtp-tls-skip-verify=true \
+-from="test@example.com" \
+-to="test@example.com" \
+-body="hello world" \
+-subject="test mail"
+```
+
 ## Continuous integration
 
 [Jenkins](https://www.benjamin-borbe.de/jenkins/job/Go-Mail/)
