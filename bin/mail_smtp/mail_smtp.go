@@ -4,6 +4,7 @@ import (
 	"runtime"
 
 	"fmt"
+
 	flag "github.com/bborbe/flagenv"
 	"github.com/bborbe/mailer"
 	"github.com/bborbe/mailer/config"
