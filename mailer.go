@@ -8,7 +8,6 @@ import (
 	"net"
 	net_mail "net/mail"
 	"net/smtp"
-
 	"time"
 
 	"github.com/golang/glog"
