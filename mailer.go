@@ -21,6 +21,7 @@ type Config interface {
 	Tls() bool
 	TlsSkipVerify() bool
 	Timeout() time.Duration
+	Hello() string
 }
 
 type Message interface {
@@ -85,7 +86,7 @@ func (s *mailer) Send(message Message) error {
 		return nil
 	}
 
-	err = smtpClient.Hello("localhost")
+	err = smtpClient.Hello(s.config.Hello())
 	if err != nil {
 		return err
 	}

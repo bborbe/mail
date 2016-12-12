@@ -10,6 +10,7 @@ type config struct {
 	smtpTls           bool
 	smtpTlsSkipVerify bool
 	smtpTimeout       time.Duration
+	hello string
 }
 
 func New() *config {
@@ -18,7 +19,16 @@ func New() *config {
 	c.smtpTlsSkipVerify = false
 	c.smtpPort = 25
 	c.smtpTimeout = 5 * time.Second
+	c.hello = "localhost"
 	return c
+}
+
+func (m *config) Hello() string {
+	return m.hello
+}
+
+func (m *config) SetHello(hello string) {
+	m.hello = hello
 }
 
 func (m *config) SmtpUser() string {
