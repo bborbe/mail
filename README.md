@@ -18,7 +18,7 @@ mail_smtp \
 
 ## Continuous integration
 
-[Jenkins](https://www.benjamin-borbe.de/jenkins/job/Go-Mail/)
+[Jenkins](https://jenkins.benjamin-borbe.de/job/Go-Mail/)
 
 ## Copyright and license
 
