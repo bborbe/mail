@@ -31,7 +31,7 @@ format:
 
 prepare:
 	go get -u golang.org/x/tools/cmd/goimports
-	go get -u github.com/golang/lint/golint
+	go get -u golang.org/x/lint/golint
 	go get -u github.com/kisielk/errcheck
 	go get -u github.com/bborbe/docker-utils/cmd/docker-remote-tag-exists
 	go get -u github.com/golang/dep/cmd/dep
